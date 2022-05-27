@@ -1,7 +1,40 @@
+import { useCallback, useState, KeyboardEvent } from "react";
+import BagOfWords from "../../components/bagOfWords";
+import { Button } from "./styles";
+
+const preventEnter = (event: KeyboardEvent): void => {
+  if (event.key === 'Enter') event.preventDefault();
+};
+
 const Home: React.FC = () => {
-  console.log("start");
+  const [tags, setTags] = useState<string[]>([]);
+  const [isErroredBagOfWords, setIsErroredBagOfWords] = useState(false);
+
+  const validateBagOfWordsAndFile = useCallback((): boolean => {
+    const bagOfWordsError = !tags.length;
+
+    setIsErroredBagOfWords(bagOfWordsError);
+
+    return bagOfWordsError;
+  }, [tags]);
+
+  const handleSubmit = useCallback(
+    async () => {
+      const isErrored = validateBagOfWordsAndFile();
+
+      if (isErrored) return;
+
+      console.log('envia formulario');
+    },
+    [validateBagOfWordsAndFile],
+  );
+
   return (
-    <h1>Hello World</h1>
+    <form onSubmit={handleSubmit} onKeyPress={(event) => preventEnter(event)}>
+      <BagOfWords isErrored={isErroredBagOfWords} tags={tags} setTags={setTags} />
+
+      <Button type="submit">Send</Button>
+    </form>
   );
 };
 
