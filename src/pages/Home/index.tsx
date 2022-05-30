@@ -1,7 +1,16 @@
+import { useState } from "react";
+import { Pagination } from "../../components/Pagination";
+
 const Home: React.FC = () => {
-  console.log("start");
+  const [page, setPage] = useState(1);
+  const totalCount = 100;
+
   return (
-    <h1>Hello World</h1>
+    <Pagination
+    totalCountOfRegisters={totalCount}
+    currentPage={page}
+    onPageChange={setPage}
+  />
   );
 };
 
