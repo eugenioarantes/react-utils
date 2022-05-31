@@ -1,13 +1,13 @@
 import React from 'react';
 import {Switch, Route} from 'react-router-dom';
 
-import Home from '../pages/Home';
+import Login from '../pages/Login';
 
 
 const AppRoutes: React.FC = () => {
   return (
     <Switch>
-      <Route path="/" component={Home} />
+      <Route path="/" component={Login} />
     </Switch>
   );
 };
