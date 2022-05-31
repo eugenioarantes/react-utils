@@ -16,9 +16,8 @@ export const Container = styled.div`
 `;
 
 export const PageWrapper = styled.div`
-  ${flex.alignCenterColumn}
   margin: 0 auto;
-  min-width: ${convertPixelToRem(500)};
+  min-width: 30%;
 `;
 
 export const TitleSignIn = styled.h1`
