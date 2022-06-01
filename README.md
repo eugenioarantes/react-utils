@@ -6,7 +6,9 @@ Repository containing useful components in react
 
 • login
 
-• paginator
+• paginator-react
+
+• paginator-chakra-ui
 
 • bag of words
 
