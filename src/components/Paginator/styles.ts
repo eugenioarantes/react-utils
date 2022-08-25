@@ -7,13 +7,17 @@ export const Container = styled.div`
 `;
 
 export const Button = styled.button`
-  border-radius: 50%;
-  background: lightgray;
   color: blue;
+  background: lightgray;
+  
   width: 30px;
   height: 30px;
+  
   border: none;
+  border-radius: 50%;
+
   cursor: pointer;
+
   &:hover {
     background: gray;
   }

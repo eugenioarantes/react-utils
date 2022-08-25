@@ -32,7 +32,7 @@ function Paginator<Register>({
 
   const displayRegisters = items.slice((currentPage - 1) * registersPerPage, currentPage * registersPerPage);
 
-  const lastPage = Math.floor(totalCountOfRegisters / registersPerPage);
+  const lastPage = Math.ceil(totalCountOfRegisters / registersPerPage);
 
   const previousPages = currentPage > 1
     ? generatePagesArray(currentPage - 1 - siblingsCount, currentPage - 1)
