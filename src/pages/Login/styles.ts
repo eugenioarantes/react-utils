@@ -1,7 +1,7 @@
 import { convertPixelToRem, flex, getMargin } from 'css-blocks-styled-components';
 import styled from 'styled-components';
 
-import { Form } from '@unform/web';
+import { Form } from 'formik';
 
 import ActionButton from '../../components/ActionButton';
 

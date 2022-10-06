@@ -1,5 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
-import { FormHandles } from '@unform/core';
+import { useCallback, useState } from 'react';
 import * as Yup from 'yup';
 
 import Loading from '../../assets/login-loading.svg';
@@ -20,6 +19,7 @@ import {
   LoadingImage,
   SpaceComponent,
 } from './styles';
+import { Formik } from 'formik';
 
 interface SignInFormData {
   email: string;
@@ -31,16 +31,18 @@ const validator = Yup.object().shape({
   password: Yup.string().required('Mandatory password'),
 });
 
+const FORM_INITIAL_VALUES = {
+  email: '',
+  password: '',
+}
+
 const Login: React.FC = () => {
   const [isLoaderOn, setIsLoaderOn] = useState(false);
-
-  const formRef = useRef<FormHandles>(null);
 
   const { signIn } = useAuth();
 
   const handleSubmit = useCallback(async (formData: SignInFormData) => {
-      const { errors, hasError } = await validateFormData(validator, formData);
-      formRef.current?.setErrors(errors);
+      const { hasError } = await validateFormData(validator, formData);
 
       if (hasError) return;
 
@@ -58,22 +60,44 @@ const Login: React.FC = () => {
       <PageWrapper>
         <TitleSignIn>Please Sign In</TitleSignIn>
 
-        <StyledForm ref={formRef} onSubmit={handleSubmit}>
-          <InputLabel htmlFor="sign-login">Login</InputLabel>
-          <InputForm name="email" id="sign-login" placeholder="email@email.com" />
+        <Formik
+          initialValues={FORM_INITIAL_VALUES}
+          validationSchema={validator}
+          onSubmit={(values) => handleSubmit(values)}
+        >
+        {({ errors, touched, handleBlur }) => (
+          <StyledForm>
+            <InputLabel htmlFor="sign-login">Login</InputLabel>
+            <InputForm 
+              name="email"
+              id="sign-login"
+              placeholder="email@email.com"
+              error={errors.email}
+              touched={touched.email}
+              blur={handleBlur}
+            />
 
-          <InputLabel htmlFor="sign-password">Password</InputLabel>
-          <InputForm name="password" id="sign-password" placeholder="********" type="password" />
+            <InputLabel htmlFor="sign-password">Password</InputLabel>
+            <InputForm
+              name= "password"
+              id="sign-password"
+              placeholder="********"
+              type="password"
+              error={errors.password}
+              touched={touched.password}
+              blur={handleBlur}
+            />
 
-          <StyledActionButton disabled={isLoaderOn} type="submit">
-            <SpaceComponent />
+            <StyledActionButton disabled={isLoaderOn} type="submit">
+              <SpaceComponent />
 
-            <span>Sign In</span>
+              <span>Sign In</span>
 
-            {isLoaderOn ? <LoadingImage src={Loading} alt="loading" /> : <SpaceComponent />}
-          </StyledActionButton>
-        </StyledForm>
-
+              {isLoaderOn ? <LoadingImage src={Loading} alt="loading" /> : <SpaceComponent />}
+            </StyledActionButton>
+          </StyledForm>
+         )}
+         </Formik>
       </PageWrapper>
     </Container>
   );

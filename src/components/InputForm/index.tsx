@@ -1,5 +1,5 @@
-import React, { InputHTMLAttributes, useEffect, useRef } from 'react';
-import { useField } from '@unform/core';
+import { FocusEvent } from 'react';
+import { Field, FieldAttributes } from 'formik';
 
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 
@@ -7,35 +7,36 @@ import { useToggle } from '../../hooks/toggle';
 
 import { Container, InputContainer, Error, ShowPasswordButton } from './styles';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  name: string;
+interface InputProps extends FieldAttributes<any> {
+  error?: string;
+  touched?: boolean;
+  blur?: (event: FocusEvent) => void;
   backgroundColor?: string;
+  type?: string;
 }
 
 const InputForm: React.FC<InputProps> = ({
-  name,
-  type = 'text',
   backgroundColor = 'transparent',
+  type = 'text',
+  error,
+  touched,
+  blur,
   ...rest
 }) => {
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const { fieldName, error, registerField } = useField(name);
-
-  const { isOn: isFocused, turnOn: handleFocus, turnOff: handleBlur } = useToggle();
+  const { isOn: isFocused, turnOn: handleFocus, turnOff: handleFocusOff } = useToggle();
 
   const { isOn: showPassword, toggle: toggleShowPassword } = useToggle();
 
-  useEffect(() => {
-    registerField({
-      name: fieldName,
-      ref: inputRef.current,
-      path: 'value',
-    });
-  }, [fieldName, registerField]);
-
   const isPassword = type === 'password';
   const inputType = isPassword && showPassword ? 'text' : type;
+
+  const errored = error && touched
+
+  const handleBlur = (event: FocusEvent): void => {
+    handleFocusOff()
+
+    if (blur) blur(event)
+  }
 
   return (
     <Container>
@@ -44,11 +45,10 @@ const InputForm: React.FC<InputProps> = ({
         $isFocused={isFocused}
         $backgroundColor={backgroundColor}
       >
-        <input
+        <Field
           type={inputType}
           onFocus={handleFocus}
-          onBlur={handleBlur}
-          ref={inputRef}
+          onBlur={(event: FocusEvent) => handleBlur(event)}
           {...rest}
         />
 
@@ -58,7 +58,7 @@ const InputForm: React.FC<InputProps> = ({
           </ShowPasswordButton>
         )}
       </InputContainer>
-      <Error>{error}</Error>
+      <Error>{errored ? error : ''}</Error>
     </Container>
   );
 };
