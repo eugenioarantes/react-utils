@@ -56,14 +56,20 @@ const AuthProvider: React.FC = ({ children }) => {
         localStorage.setItem('@TesteLogin:user', user);
 
         setData({ token, user });
-      } catch (err) {
-        // addToast({
-        //   title: 'Login failed',
-        //   type: 'error',
-        // })
-        ;
 
+        addToast({
+          title: 'Succeso!',
+          type: 'success',
+          description: 'Login realizado com sucesso!',
+        });
+      } catch (err) {
         success = false;
+        addToast({
+          title: 'Erro ao realizar Login!',
+          type: 'error',
+          description: 'Dados de login incorretos!',
+        });
+
       }
 
       return success;

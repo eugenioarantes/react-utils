@@ -38,8 +38,7 @@ const Login: React.FC = () => {
 
   const { signIn } = useAuth();
 
-  const handleSubmit = useCallback(
-    async (formData: SignInFormData) => {
+  const handleSubmit = useCallback(async (formData: SignInFormData) => {
       const { errors, hasError } = await validateFormData(validator, formData);
       formRef.current?.setErrors(errors);
 
@@ -49,10 +48,9 @@ const Login: React.FC = () => {
 
       const success = await signIn(formData);
 
-      // if (!success) 
-      setIsLoaderOn(false);
-    },
-    [signIn],
+      if (!success) setIsLoaderOn(false);
+  },
+  [signIn],
   );
 
   return (

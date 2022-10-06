@@ -1,7 +1,16 @@
+import { useAuth } from "../../providers/Auth";
+import { useToast } from "../../providers/Toast";
+import { Container } from "./styles";
+
 const Home: React.FC = () => {
-  console.log("start");
+  const { addToast } = useToast();
+  const { signOut } = useAuth();
+
   return (
-    <h1>Hello World</h1>
+    <Container>
+      <h1>Home</h1>
+      <button onClick={signOut}>sign out</button>
+    </Container>
   );
 };
 
