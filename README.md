@@ -19,3 +19,5 @@ Repository containing useful components in react
 • download-CSV
 
 • formik-form-validation
+
+• switch
