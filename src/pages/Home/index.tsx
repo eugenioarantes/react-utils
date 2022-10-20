@@ -22,7 +22,6 @@ const Home: React.FC = () => {
         >
           <span>Yes</span>
         </Button>
-
       </Switch>
     </Container>
   );
