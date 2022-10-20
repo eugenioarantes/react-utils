@@ -94,7 +94,7 @@ export const BlockColor = styled.div<BlockColorProps>`
   
   width: 80px;
   height: 30px;
-  background: #19c29b;
+  background: #19c2ff;
 
   border: 0;
   border-radius: 10px;
