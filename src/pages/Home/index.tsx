@@ -1,4 +1,4 @@
-import Select from 'react-select';
+import ReactSelect from 'react-select';
 import { convertPixelToRem } from 'css-blocks-styled-components';
 import { getReactSelectStyle } from '../../components/ReactSelectStyle';
 import { useState } from 'react';
@@ -38,7 +38,7 @@ const Home: React.FC = () => {
 
   return (
     <Container>
-      <Select
+      <ReactSelect
       options={SORT_BY_OPTIONS}
       defaultValue={SORT_BY_OPTIONS[0]}
       onChange={handleChangeSelector}
