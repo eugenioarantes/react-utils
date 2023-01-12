@@ -1,9 +1,12 @@
 import { useToggle } from "../../hooks/toggle";
+import { useToast } from "../../providers/Toast";
 import { Container, ResultShow, Row } from "./styles";
 
 const UsingToggle: React.FC = () => {
 
   const { isOn, turnOff, turnOn, toggle } = useToggle();
+
+  const { addToast } = useToast();
   
   return (
     <Container>
@@ -16,6 +19,7 @@ const UsingToggle: React.FC = () => {
       {isOn && (
         <ResultShow>
           IS ON
+          {addToast({title: 'Is On', type: 'success'})}
         </ResultShow>
       )}
     </Container>

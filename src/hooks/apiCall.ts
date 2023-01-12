@@ -2,16 +2,17 @@
 import { AxiosError } from 'axios';
 import { useState, useCallback } from 'react';
 import api from '../services/api';
+import { AddToastParams, useToast } from '../providers/Toast';
 
 export type ApiError = {
   message: string;
 };
 
 interface ExecuteProps {
-  method?: 'post' | 'put';
+  method?: 'post' | 'put' | 'delete';
   path: string;
   payload: Record<string, any>;
-  customErrorParser?: (errorResponse: ApiError) => void;
+  customErrorParser?: (errorResponse: ApiError) => void | AddToastParams;
 }
 
 type MappedObject<E extends string> = { [key in E]: boolean };
@@ -44,6 +45,8 @@ export function useApiCall<L extends string = 'loading', E extends string = 'err
   const [isLoading, setLoading] = useState(false);
   const [isError, setError] = useState(false);
 
+  const { addToast } = useToast();
+
   const executeApiCall = useCallback(
     async <Result = any>({ method = 'post', path, payload, customErrorParser }: ExecuteProps) => {
       try {
@@ -56,12 +59,14 @@ export function useApiCall<L extends string = 'loading', E extends string = 'err
         return result.data;
       } catch (err) {
         setError(true);
-        customErrorParser?.(((err as AxiosError).response?.data as ApiError) || {});
+        const message = customErrorParser?.(((err as AxiosError).response?.data as ApiError) || {});
+
+        if (message) addToast(message);
       } finally {
         setLoading(false);
       }
     },
-    [],
+    [addToast],
   );
 
   return {

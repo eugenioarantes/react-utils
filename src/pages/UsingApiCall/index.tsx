@@ -1,20 +1,23 @@
+import { useCallback } from "react";
 import { useApiCall } from "../../hooks/apiCall";
+import { MESSAGES } from "./utils";
 
 const UsingApiCall: React.FC = () => {
   const { executeApiCall } = useApiCall();
 
-  async function exampleFunction(): Promise<void> {
-    try {
+  const exampleFunction = useCallback(async () => {
       const data = await executeApiCall({
         path: '/your/url',
         payload: {
           payloadData: '',
         },
-      });
-    } catch (err) {
-      console.log('error');
-    }
-  }
+        customErrorParser: (error) =>
+        Object.values(MESSAGES).find(({ title }) => title === error.message) ||
+        MESSAGES.createError,
+    });
+
+    if (!data) return;
+  }, []);
   return (
     <></>
   );
