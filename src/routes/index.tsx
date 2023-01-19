@@ -1,14 +1,17 @@
 import React from 'react';
-import {Switch, Route} from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 import Home from '../pages/Home';
-
+import Settings from '../pages/Settings';
+import Tasks from '../pages/Tasks';
 
 const AppRoutes: React.FC = () => {
   return (
-    <Switch>
-      <Route path="/" component={Home} />
-    </Switch>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/settings" element={<Settings />} />
+      <Route path="/tasks" element={<Tasks />} />
+    </Routes>
   );
 };
 

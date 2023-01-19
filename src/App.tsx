@@ -1,12 +1,15 @@
-import { BrowserRouter } from 'react-router-dom';
+import AppWrapper from './components/AppWrapper';
+import AppProvider from './providers';
 
 import AppRoutes from './routes';
 
 function App(): JSX.Element {
   return (
-    <BrowserRouter>
-      <AppRoutes />
-    </BrowserRouter>
+    <AppProvider>
+      <AppWrapper>
+        <AppRoutes />
+      </AppWrapper>
+    </AppProvider>
   );
 }
 
