@@ -142,3 +142,30 @@ export const TaskItem = styled(Link)`
   background: transparent;
   border: 0;
 `;
+
+export const ActionButton = styled.button`
+  display: flex;
+  align-content: center;
+
+  background: transparent;
+  border: 0;
+  gap: ${convertPixelToRem(12)};
+  color: #fff;
+
+  > span {
+    font-weight: 700;
+  }
+
+  svg {
+    ${getBoxWidthAndHeight(20)}
+  }
+`;
+
+export const TaskName = styled.span`
+  color: #fff;
+
+  font-weight: 600;
+  font-size: ${convertPixelToRem(12)};
+  line-height: ${convertPixelToRem(16)};
+  margin-left: ${convertPixelToRem(35)};
+`;

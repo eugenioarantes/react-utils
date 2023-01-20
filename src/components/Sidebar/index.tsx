@@ -18,6 +18,7 @@ import FullHeightContainer from '../FullHeightContainer';
 import { useWindowSize } from '../../hooks/windowSize';
 import { MAX_BREAKPOINTS } from '../../utils/constants';
 import { TASKS } from '../../mocks/Tasks';
+import UserView from './UserView';
 
 interface SideBarProps {
   open: boolean;
@@ -66,6 +67,10 @@ function Sidebar({ open, onToggle }: SideBarProps): JSX.Element {
                     {name}
                   </TaskItem>
                 ))}
+              </Column>
+
+              <Column>
+                <UserView />
               </Column>
             </>
           )}
