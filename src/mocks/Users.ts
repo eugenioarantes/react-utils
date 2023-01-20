@@ -13,11 +13,26 @@ export const USERS: User[] = [
   {
     id: '2',
     name: 'Bruno',
-    tasks: ['3', '4'],
+    tasks: ['2', '5', '4'],
   },
   {
     id: '3',
     name: 'Pedro',
-    tasks: ['5'],
+    tasks: ['5', '3'],
+  },
+  {
+    id: '4',
+    name: 'Cláudio',
+    tasks: ['3'],
+  },
+  {
+    id: '5',
+    name: 'Alberto',
+    tasks: [],
+  },
+  {
+    id: '6',
+    name: 'Gilberto',
+    tasks: ['6', '4'],
   },
 ];

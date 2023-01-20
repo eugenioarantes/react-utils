@@ -20,13 +20,9 @@ interface TeamUserProps {
 function TeamUser({ user }: TeamUserProps): JSX.Element | null {
   const { isOn, toggle } = useToggle();
 
-  const userEntries = TASKS.filter(({ tab, tasks }) => {
-    const filtered = {
-      tab,
-      tasks: tasks.some(({ id }) => user.tasks.includes(id)),
-    };
-    return !!filtered.tasks;
-  }).map(({ tab, tasks }) => {
+  const userEntries = TASKS.filter(({ tasks }) =>
+    tasks.some(({ id }) => user.tasks.includes(id)),
+  ).map(({ tab, tasks }) => {
     return {
       tab,
       tasks: tasks.filter(({ id }) => user.tasks.includes(id)),
@@ -42,7 +38,7 @@ function TeamUser({ user }: TeamUserProps): JSX.Element | null {
           <Row gap={4}>
             <span>{user.name}</span>
 
-            <small>({userEntries.map(({ tasks }) => tasks?.length)})</small>
+            <small>({userEntries.reduce((acc, { tasks }) => acc + tasks.length, 0)})</small>
           </Row>
         </ActionButton>
       </Row>
