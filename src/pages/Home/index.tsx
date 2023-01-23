@@ -1,3 +1,5 @@
+import { useMemo, useState } from 'react';
+
 import {
   Paper,
   Table,
@@ -12,15 +14,53 @@ import {
 import FilterListIcon from '@mui/icons-material/FilterList';
 
 import { Column, Row } from '../../components/Containers';
-import { TASKS } from '../../mocks/Tasks';
+import { SingleTask, TASKS } from '../../mocks/Tasks';
 
 import { FilterButton } from './styles';
 import { useToggle } from '../../hooks/toggle';
+import FilterModal from './FilterModal';
+
+export type TaskFilter = Record<'status', string[]>;
+
+type FilterKey = keyof TaskFilter;
+
+const filterResolvers: {
+  [key in FilterKey]: (tasks: SingleTask[], filters: string[]) => boolean;
+} = {
+  status: (tasks, filters) => tasks.some(({ status }) => filters.includes(status)),
+
+  // owners: ({ owner }, filters) => filters.includes(owner.id),
+};
 
 function Home(): JSX.Element {
   const { isOn: modalFilterOpen, turnOff: closeFilterModal, turnOn: openFilterModal } = useToggle();
 
-  const hasFilter = true;
+  const [filters, setFilters] = useState<TaskFilter>({} as TaskFilter);
+
+  const hasFilter = !!Object.keys(filters).length;
+
+  const filteredProjects = useMemo(() => {
+    const activeFilterEntries = Object.entries(filters);
+
+    if (!activeFilterEntries.length) return TASKS;
+
+    const statusFilter = activeFilterEntries.find(([filter, _]) => filter === 'status');
+
+    const [_, statusFilterValues] = statusFilter || ['', []];
+
+    return TASKS.filter(({ tasks }) => {
+      const allFiltersMatch = activeFilterEntries.every(([filter, values]) =>
+        filterResolvers[filter as FilterKey](tasks, values),
+      );
+
+      return allFiltersMatch;
+    }).map(({ id, name, tab, tasks }) => ({
+      id,
+      name,
+      tab,
+      tasks: tasks.filter((task) => statusFilterValues.includes(task.status)),
+    }));
+  }, [filters]);
 
   return (
     <Column>
@@ -33,6 +73,13 @@ function Home(): JSX.Element {
           <FilterListIcon />
         </FilterButton>
       </Row>
+
+      <FilterModal
+        isOpen={modalFilterOpen}
+        close={closeFilterModal}
+        setTasksFilters={setFilters}
+        tasksFilters={filters}
+      />
 
       <TableContainer component={Paper}>
         <Table>
@@ -54,7 +101,7 @@ function Home(): JSX.Element {
                 </TableCell>
               </TableRow>
             ) : (
-              TASKS.map(({ tasks }) =>
+              filteredProjects.map(({ tasks }) =>
                 tasks.map(({ id, name, status }) => (
                   <TableRow>
                     <TableCell>{id}</TableCell>
