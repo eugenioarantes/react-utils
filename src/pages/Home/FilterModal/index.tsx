@@ -28,7 +28,7 @@ function FilterProjects({
   tasksFilters,
 }: FilterProjectsProps): JSX.Element {
   const uniqueStatus = useMemo(() => {
-    const tasksList = TASKS.map(({ tasks }) => tasks).flat();
+    const tasksList = TASKS.flatMap(({ tasks }) => tasks);
 
     const statusList = Array.from(new Set(tasksList.map(({ status }) => status)));
 
