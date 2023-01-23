@@ -13,6 +13,7 @@ import { useSearchParams } from 'react-router-dom';
 import { Row, Column } from '../../components/Containers';
 import Tabs from '../../components/Tabs/Tabs';
 import { TABS, TASKS } from '../../mocks/Tasks';
+import { USERS } from '../../mocks/Users';
 
 const TaskTabs = ['today', 'week', 'month'];
 
@@ -47,7 +48,8 @@ function Tasks(): JSX.Element {
             <TableRow>
               <TableCell width={100}>Id</TableCell>
               <TableCell width={300}>Task name</TableCell>
-              <TableCell>Status</TableCell>
+              <TableCell width={300}>Status</TableCell>
+              <TableCell>Owner</TableCell>
             </TableRow>
           </TableHead>
 
@@ -61,13 +63,19 @@ function Tasks(): JSX.Element {
                 </TableCell>
               </TableRow>
             ) : (
-              tasksToPrint.map(({ id, name, status }) => (
+              tasksToPrint.map(({ id, name, status, owners }) => (
                 <TableRow>
                   <TableCell>{id}</TableCell>
 
                   <TableCell>{name}</TableCell>
 
                   <TableCell>{status}</TableCell>
+
+                  <TableCell>
+                    {USERS.filter(({ id: userId }) => owners.includes(userId))
+                      .map(({ name: userName }) => userName)
+                      .join(', ')}
+                  </TableCell>
                 </TableRow>
               ))
             )}

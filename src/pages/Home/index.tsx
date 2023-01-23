@@ -19,6 +19,7 @@ import { SingleTask, TASKS } from '../../mocks/Tasks';
 import { FilterButton } from './styles';
 import { useToggle } from '../../hooks/toggle';
 import FilterModal from './FilterModal';
+import { USERS } from '../../mocks/Users';
 
 export type TaskFilter = Record<'status', string[]>;
 
@@ -87,7 +88,8 @@ function Home(): JSX.Element {
             <TableRow>
               <TableCell width={100}>Id</TableCell>
               <TableCell width={300}>Task name</TableCell>
-              <TableCell>Status</TableCell>
+              <TableCell width={300}>Status</TableCell>
+              <TableCell>Owner</TableCell>
             </TableRow>
           </TableHead>
 
@@ -102,13 +104,19 @@ function Home(): JSX.Element {
               </TableRow>
             ) : (
               filteredProjects.map(({ tasks }) =>
-                tasks.map(({ id, name, status }) => (
+                tasks.map(({ id, name, status, owners }) => (
                   <TableRow>
                     <TableCell>{id}</TableCell>
 
                     <TableCell>{name}</TableCell>
 
                     <TableCell>{status}</TableCell>
+
+                    <TableCell>
+                      {USERS.filter(({ id: userId }) => owners.includes(userId))
+                        .map(({ name: userName }) => userName)
+                        .join(', ')}
+                    </TableCell>
                   </TableRow>
                 )),
               )

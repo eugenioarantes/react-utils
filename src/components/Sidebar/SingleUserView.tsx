@@ -21,11 +21,11 @@ function TeamUser({ user }: TeamUserProps): JSX.Element | null {
   const { isOn, toggle } = useToggle();
 
   const userEntries = TASKS.filter(({ tasks }) =>
-    tasks.some(({ id }) => user.tasks.includes(id)),
+    tasks.some(({ owners }) => owners.includes(user.id)),
   ).map(({ tab, tasks }) => {
     return {
       tab,
-      tasks: tasks.filter(({ id }) => user.tasks.includes(id)),
+      tasks: tasks.filter(({ owners }) => owners.includes(user.id)),
     };
   });
 
