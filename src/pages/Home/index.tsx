@@ -26,19 +26,19 @@ export type TaskFilter = Record<'status' | 'owners', string[]>;
 type FilterKey = keyof TaskFilter;
 
 const filterResolvers: {
-  [key in FilterKey]: (tasks: SingleTask[], filters: string[]) => boolean;
+  [key in FilterKey]: (tasks: SingleTask[], filters: string[], uniqueTask?: SingleTask) => boolean;
 } = {
-  status: (tasks, filters) => tasks.some(({ status }) => filters.includes(status)),
+  status: (tasks, filters, uniqueTask) => {
+    return uniqueTask
+      ? filters.includes(uniqueTask.status)
+      : tasks.some(({ status }) => filters.includes(status));
+  },
 
-  owners: (tasks, filters) => tasks.some(({ owners }) => owners.some((id) => filters.includes(id))),
-};
-
-const taskFilterResolvers: {
-  [key in FilterKey]: (task: SingleTask, filters: string[]) => boolean;
-} = {
-  status: (task, filters) => filters.includes(task.status),
-
-  owners: (task, filters) => task.owners.some((ownerId) => filters.includes(ownerId)),
+  owners: (tasks, filters, uniqueTask) => {
+    return uniqueTask
+      ? uniqueTask.owners.some((ownerId) => filters.includes(ownerId))
+      : tasks.some(({ owners }) => owners.some((id) => filters.includes(id)));
+  },
 };
 
 function Home(): JSX.Element {
@@ -65,7 +65,7 @@ function Home(): JSX.Element {
       tab,
       tasks: tasks.filter((task) => {
         const allFiltersMatch = activeFilterEntries.every(([filter, values]) =>
-          taskFilterResolvers[filter as FilterKey](task, values),
+          filterResolvers[filter as FilterKey](tasks, values, task),
         );
 
         return allFiltersMatch;
