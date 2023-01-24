@@ -4,12 +4,11 @@ import Dialog from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
-import Button from '@mui/material/Button';
 
 import { Column, Row } from '../../../components/Containers';
 import Select from '../../../components/Select';
 
-import { Container } from './styles';
+import { Container, StyledButton } from './styles';
 import { TaskFilter } from '..';
 import { removeUndefinedProperties } from '../../../utils/object';
 import { SingleTask, TASKS } from '../../../mocks/Tasks';
@@ -91,7 +90,7 @@ function FilterProjects({
     <Dialog maxWidth="xl" open={isOpen} onClose={close}>
       <Container gap={24}>
         <Row justifyContent="space-between">
-          <Typography variant="h6" color="gray">
+          <Typography variant="h6" color="#666">
             Choose your filters
           </Typography>
 
@@ -134,9 +133,9 @@ function FilterProjects({
           </Column>
 
           <Row justifyContent="center">
-            <Button variant="contained" onClick={close}>
+            <StyledButton variant="contained" onClick={close}>
               Close
-            </Button>
+            </StyledButton>
           </Row>
         </Column>
       </Container>

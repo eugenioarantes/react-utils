@@ -10,6 +10,7 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
+import ClearAllOutlinedIcon from '@mui/icons-material/ClearAllOutlined';
 
 import FilterListIcon from '@mui/icons-material/FilterList';
 
@@ -76,9 +77,13 @@ function Home(): JSX.Element {
   return (
     <Column>
       <Row justifyContent="space-between">
-        <Typography fontSize={30} color="#666" align="center">
-          All tasks
-        </Typography>
+        <Row>
+          <ClearAllOutlinedIcon fontSize="large" color="action" />
+
+          <Typography fontSize={30} color="#666" align="center">
+            All tasks
+          </Typography>
+        </Row>
 
         <FilterButton $hasFilter={hasFilter} onClick={openFilterModal}>
           <FilterListIcon />

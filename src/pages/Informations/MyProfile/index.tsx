@@ -1,6 +1,7 @@
 import TextField from '@mui/material/TextField';
+import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 import Typography from '@mui/material/Typography';
-import { Column } from '../../../components/Containers';
+import { Column, Row } from '../../../components/Containers';
 import { USERS } from '../../../mocks/Users';
 import { FormContainer } from './styles';
 
@@ -9,9 +10,13 @@ function MyProfile(): JSX.Element {
 
   return (
     <Column>
-      <Typography fontSize={25} color="#555" align="center">
-        My Profile
-      </Typography>
+      <Row justifyContent="center">
+        <PermIdentityOutlinedIcon fontSize="large" color="action" />
+
+        <Typography fontSize={25} color="#555" align="center">
+          My Profile
+        </Typography>
+      </Row>
 
       <FormContainer gap={24}>
         <TextField

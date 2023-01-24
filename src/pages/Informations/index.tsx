@@ -1,4 +1,5 @@
 import Typography from '@mui/material/Typography';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { useState } from 'react';
 import { GoBackButton } from '../../components/Buttons';
 import { Row, Column } from '../../components/Containers';
@@ -24,6 +25,8 @@ function Settings(): JSX.Element {
       <Row justifyContent="space-between">
         <Row fullWidth={false}>
           <GoBackButton to="/" />
+
+          <InfoOutlinedIcon fontSize="large" color="action" />
 
           <Typography fontSize={30} color="#666" align="center">
             Informations

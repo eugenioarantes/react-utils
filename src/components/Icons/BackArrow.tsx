@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { SVG, IconProps } from './base';
 
-const BackArrow: FC<IconProps> = ({ className, size = 24 }) => {
+const BackArrow: FC<IconProps> = ({ className, size = 30 }) => {
   return (
     <SVG
       $size={size}

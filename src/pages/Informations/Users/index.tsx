@@ -8,15 +8,20 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { Column } from '../../../components/Containers';
+import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
+import { Column, Row } from '../../../components/Containers';
 import { USERS } from '../../../mocks/Users';
 
 function Users(): JSX.Element {
   return (
     <Column gap={30}>
-      <Typography fontSize={25} color="#555" align="center">
-        Users
-      </Typography>
+      <Row justifyContent="center">
+        <GroupsOutlinedIcon fontSize="large" color="action" />
+
+        <Typography fontSize={25} color="#555" align="center">
+          Users
+        </Typography>
+      </Row>
 
       <TableContainer component={Paper}>
         <Table>
