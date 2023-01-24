@@ -10,6 +10,10 @@ function MyProfile(): JSX.Element {
 
   const editedUser = Object.fromEntries(Object.entries(user).filter(([key, _]) => key !== 'id'));
 
+  const capitalizeText = (text: string): string => {
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  };
+
   return (
     <Column>
       <Row justifyContent="center">
@@ -22,13 +26,7 @@ function MyProfile(): JSX.Element {
 
       <FormContainer gap={24}>
         {Object.entries(editedUser).map(([key, val]) => (
-          <TextField
-            required
-            name={val}
-            label={key.charAt(0).toUpperCase() + key.slice(1)}
-            disabled
-            value={val}
-          />
+          <TextField required name={val} label={capitalizeText(key)} disabled value={val} />
         ))}
       </FormContainer>
     </Column>
