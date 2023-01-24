@@ -49,7 +49,7 @@ function Home(): JSX.Element {
 
   const hasFilter = !!Object.keys(filters).length;
 
-  const filteredProjects = useMemo(() => {
+  const filteredTasks = useMemo(() => {
     const activeFilterEntries = Object.entries(filters);
 
     if (!activeFilterEntries.length) return TASKS;
@@ -118,7 +118,7 @@ function Home(): JSX.Element {
                 </TableCell>
               </TableRow>
             ) : (
-              filteredProjects.map(({ tasks }) =>
+              filteredTasks.map(({ tasks }) =>
                 tasks.map(({ id, name, status, owners }) => (
                   <TableRow>
                     <TableCell>{id}</TableCell>

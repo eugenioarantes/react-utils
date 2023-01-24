@@ -1,3 +1,5 @@
+import { useMemo, useState } from 'react';
+
 import {
   Paper,
   Table,
@@ -8,20 +10,67 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
+import FilterListIcon from '@mui/icons-material/FilterList';
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import { Column, Row } from '../../../components/Containers';
 import { USERS } from '../../../mocks/Users';
+import { FilterButton } from '../../Home/styles';
+import { useToggle } from '../../../hooks/toggle';
+import FilterModal from './FilterModal';
+
+export type UserFilter = Record<'profession', string[]>;
+
+type FilterKey = keyof UserFilter;
+
+const filterResolvers: {
+  [key in FilterKey]: (professionId: string, filters: string[]) => boolean;
+} = {
+  profession: (professionId, filters) => filters.includes(professionId),
+};
 
 function Users(): JSX.Element {
+  const { isOn: modalFilterOpen, turnOff: closeFilterModal, turnOn: openFilterModal } = useToggle();
+
+  const [filters, setFilters] = useState<UserFilter>({} as UserFilter);
+
+  const hasFilter = !!Object.keys(filters).length;
+
+  const filteredUsers = useMemo(() => {
+    const activeFilterEntries = Object.entries(filters);
+
+    if (!activeFilterEntries.length) return USERS;
+
+    return USERS.filter(({ profession }) => {
+      const allFiltersMatch = activeFilterEntries.every(([filter, values]) =>
+        filterResolvers[filter as FilterKey](profession.id, values),
+      );
+
+      return allFiltersMatch;
+    });
+  }, [filters]);
+
   return (
     <Column gap={30}>
-      <Row justifyContent="center">
-        <GroupsOutlinedIcon fontSize="large" color="action" />
+      <Row>
+        <Row>
+          <GroupsOutlinedIcon fontSize="large" color="action" />
 
-        <Typography fontSize={25} color="#555" align="center">
-          Users
-        </Typography>
+          <Typography fontSize={25} color="#555" align="center">
+            Users
+          </Typography>
+        </Row>
+
+        <FilterButton $hasFilter={hasFilter} onClick={openFilterModal}>
+          <FilterListIcon />
+        </FilterButton>
       </Row>
+
+      <FilterModal
+        isOpen={modalFilterOpen}
+        close={closeFilterModal}
+        setUsersFilters={setFilters}
+        usersFilters={filters}
+      />
 
       <TableContainer component={Paper}>
         <Table>
@@ -43,13 +92,13 @@ function Users(): JSX.Element {
                 </TableCell>
               </TableRow>
             ) : (
-              USERS.map(({ name, age, profession }) => (
+              filteredUsers.map(({ name, age, profession: { name: professionName } }) => (
                 <TableRow>
                   <TableCell>{name}</TableCell>
 
                   <TableCell>{age}</TableCell>
 
-                  <TableCell>{profession}</TableCell>
+                  <TableCell>{professionName}</TableCell>
                 </TableRow>
               ))
             )}
