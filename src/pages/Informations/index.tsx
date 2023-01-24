@@ -18,12 +18,12 @@ function Settings(): JSX.Element {
   const OptionComponent = optionToComponent[option];
 
   return (
-    <Column>
+    <Column gap={50}>
       <Row justifyContent="space-between">
         <Row fullWidth={false}>
           <GoBackButton to="/" />
 
-          <h1>Settings Page</h1>
+          <h1>Informations Page</h1>
         </Row>
 
         <Row fullWidth={false}>

@@ -58,7 +58,7 @@ function Sidebar({ open, onToggle }: SideBarProps): JSX.Element {
           {open && (
             <>
               <Row justifyContent="center">
-                <SettingsButton to="/settings">Settings</SettingsButton>
+                <SettingsButton to="/informations">Informations</SettingsButton>
               </Row>
 
               <Column>
