@@ -9,7 +9,7 @@ function MyProfile(): JSX.Element {
 
   return (
     <Column>
-      <Typography fontSize={25} align="center">
+      <Typography fontSize={25} color="#555" align="center">
         My Profile
       </Typography>
 

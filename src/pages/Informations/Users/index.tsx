@@ -14,7 +14,7 @@ import { USERS } from '../../../mocks/Users';
 function Users(): JSX.Element {
   return (
     <Column gap={30}>
-      <Typography fontSize={25} align="center">
+      <Typography fontSize={25} color="#555" align="center">
         Users
       </Typography>
 
