@@ -6,7 +6,9 @@ import { USERS } from '../../../mocks/Users';
 import { FormContainer } from './styles';
 
 function MyProfile(): JSX.Element {
-  const users = USERS;
+  const user = USERS[0];
+
+  const editedUser = Object.fromEntries(Object.entries(user).filter(([key, _]) => key !== 'id'));
 
   return (
     <Column>
@@ -19,32 +21,15 @@ function MyProfile(): JSX.Element {
       </Row>
 
       <FormContainer gap={24}>
-        <TextField
-          required
-          name="name"
-          label="Name"
-          disabled
-          value={users[0].name}
-          // onChange={({ target }) => handleTeamChange('name', target.value)}
-        />
-
-        <TextField
-          required
-          name="age"
-          label="Age"
-          disabled
-          value={users[0].age}
-          // onChange={({ target }) => handleTeamChange('age', target.value)}
-        />
-
-        <TextField
-          required
-          name="profession"
-          label="Profession"
-          disabled
-          value={users[0].profession}
-          // onChange={({ target }) => handleTeamChange('age', target.value)}
-        />
+        {Object.entries(editedUser).map(([key, val]) => (
+          <TextField
+            required
+            name={val}
+            label={key.charAt(0).toUpperCase() + key.slice(1)}
+            disabled
+            value={val}
+          />
+        ))}
       </FormContainer>
     </Column>
   );
