@@ -1,7 +1,7 @@
 export const TABS = [
   {
     id: 'profile',
-    label: 'Profile',
+    label: 'My Profile',
     render: true,
   },
   {
