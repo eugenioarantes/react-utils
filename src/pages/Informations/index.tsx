@@ -1,9 +1,12 @@
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { GoBackButton } from '../../components/Buttons';
 import { Row, Column } from '../../components/Containers';
+import Tabs from '../../components/Tabs/Tabs';
 import MyProfile from './MyProfile';
 import Users from './Users';
+import { TABS } from './utils';
 
 type Options = 'profile' | 'users';
 
@@ -23,17 +26,12 @@ function Settings(): JSX.Element {
         <Row fullWidth={false}>
           <GoBackButton to="/" />
 
-          <h1>Informations Page</h1>
+          <Typography fontSize={30} color="#666" align="center">
+            Informations
+          </Typography>
         </Row>
 
-        <Row fullWidth={false}>
-          <Button variant="contained" onClick={() => setOption('profile')}>
-            My profile
-          </Button>
-          <Button variant="contained" onClick={() => setOption('users')}>
-            Users
-          </Button>
-        </Row>
+        <Tabs value={option} tabs={TABS} onChange={setOption as (s: string) => void} />
       </Row>
 
       <OptionComponent />

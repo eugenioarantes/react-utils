@@ -76,7 +76,7 @@ function Home(): JSX.Element {
   return (
     <Column>
       <Row justifyContent="space-between">
-        <Typography fontSize={30} align="center">
+        <Typography fontSize={30} color="#666" align="center">
           All tasks
         </Typography>
 
