@@ -28,7 +28,7 @@ function Settings(): JSX.Element {
 
           <InfoOutlinedIcon fontSize="large" color="action" />
 
-          <Typography fontSize={30} color="#666" align="center">
+          <Typography fontSize={25} color="#666" align="center">
             Informations
           </Typography>
         </Row>

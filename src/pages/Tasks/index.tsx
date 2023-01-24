@@ -44,7 +44,7 @@ function Tasks(): JSX.Element {
         <Row fullWidth={false}>
           <GoBackButton to="/" />
 
-          <Typography fontSize={30} color="#666" align="center">
+          <Typography fontSize={25} color="#666" align="center">
             {validTab ? `Tasks ${tab}` : 'Not found tasks'}
           </Typography>
         </Row>
