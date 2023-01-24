@@ -21,7 +21,7 @@ import { useToggle } from '../../hooks/toggle';
 import FilterModal from './FilterModal';
 import { USERS } from '../../mocks/Users';
 
-export type TaskFilter = Record<'status', string[]>;
+export type TaskFilter = Record<'status' | 'owners', string[]>;
 
 type FilterKey = keyof TaskFilter;
 
@@ -30,7 +30,15 @@ const filterResolvers: {
 } = {
   status: (tasks, filters) => tasks.some(({ status }) => filters.includes(status)),
 
-  // owners: ({ owner }, filters) => filters.includes(owner.id),
+  owners: (tasks, filters) => tasks.some(({ owners }) => owners.some((id) => filters.includes(id))),
+};
+
+const taskFilterResolvers: {
+  [key in FilterKey]: (task: SingleTask, filters: string[]) => boolean;
+} = {
+  status: (task, filters) => filters.includes(task.status),
+
+  owners: (task, filters) => task.owners.some((ownerId) => filters.includes(ownerId)),
 };
 
 function Home(): JSX.Element {
@@ -45,10 +53,6 @@ function Home(): JSX.Element {
 
     if (!activeFilterEntries.length) return TASKS;
 
-    const statusFilter = activeFilterEntries.find(([filter, _]) => filter === 'status');
-
-    const [_, statusFilterValues] = statusFilter || ['', []];
-
     return TASKS.filter(({ tasks }) => {
       const allFiltersMatch = activeFilterEntries.every(([filter, values]) =>
         filterResolvers[filter as FilterKey](tasks, values),
@@ -59,7 +63,13 @@ function Home(): JSX.Element {
       id,
       name,
       tab,
-      tasks: tasks.filter((task) => statusFilterValues.includes(task.status)),
+      tasks: tasks.filter((task) => {
+        const allFiltersMatch = activeFilterEntries.every(([filter, values]) =>
+          taskFilterResolvers[filter as FilterKey](task, values),
+        );
+
+        return allFiltersMatch;
+      }),
     }));
   }, [filters]);
 

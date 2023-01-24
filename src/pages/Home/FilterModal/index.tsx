@@ -13,6 +13,7 @@ import { Container } from './styles';
 import { TaskFilter } from '..';
 import { removeUndefinedProperties } from '../../../utils/object';
 import { SingleTask, TASKS } from '../../../mocks/Tasks';
+import { USERS } from '../../../mocks/Users';
 
 interface FilterProjectsProps {
   isOpen: boolean;
@@ -116,10 +117,10 @@ function FilterProjects({
               }}
             />
 
-            {/* <Select
+            <Select
               id="select-owner-filter"
-              options={uniqueOwners}
-              value={projectsFilters.owners || []}
+              options={USERS}
+              value={tasksFilters.owners || []}
               onChange={(newFilter) => handleChange(newFilter, 'owners')}
               placeholder="Owner filter"
               label="Owner"
@@ -129,7 +130,7 @@ function FilterProjects({
                 label: 'name',
                 unique: 'id',
               }}
-            /> */}
+            />
           </Column>
 
           <Row justifyContent="center">
