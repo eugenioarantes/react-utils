@@ -10,7 +10,7 @@ import Select from '../../../../components/Select';
 
 import { Container, StyledButton } from './styles';
 import { removeUndefinedProperties } from '../../../../utils/object';
-import { PROFESSIONS } from '../../../../mocks/Users';
+import { PROFESSIONS, PROFESSION_LEVEL } from '../../../../mocks/Users';
 import { UserFilter } from '..';
 
 interface FilterProjectsProps {
@@ -52,12 +52,27 @@ function FilterProjects({
         <Column gap={32}>
           <Column gap={24}>
             <Select
-              id="select-owner-filter"
+              id="select-profession-filter"
               options={PROFESSIONS}
               value={usersFilters.profession || []}
               onChange={(newFilter) => handleChange(newFilter, 'profession')}
               placeholder="Profession filter"
               label="Profession"
+              isMulti
+              labelPosition="top"
+              propConfig={{
+                label: 'name',
+                unique: 'id',
+              }}
+            />
+
+            <Select
+              id="select-profession-filter"
+              options={PROFESSION_LEVEL}
+              value={usersFilters.professionLevel || []}
+              onChange={(newFilter) => handleChange(newFilter, 'professionLevel')}
+              placeholder="Profession Level filter"
+              label="Profession Level"
               isMulti
               labelPosition="top"
               propConfig={{
