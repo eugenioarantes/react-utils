@@ -14,6 +14,10 @@ function MyProfile(): JSX.Element {
     return text.charAt(0).toUpperCase() + text.slice(1);
   };
 
+  const showName = (text: string | { id: string; name: string }): string => {
+    return typeof text === 'object' ? text.name : text;
+  };
+
   return (
     <Column>
       <Row justifyContent="center">
@@ -26,7 +30,13 @@ function MyProfile(): JSX.Element {
 
       <FormContainer gap={24}>
         {Object.entries(editedUser).map(([key, val]) => (
-          <TextField required name={val} label={capitalizeText(key)} disabled value={val} />
+          <TextField
+            required
+            name={showName(val)}
+            label={capitalizeText(key)}
+            disabled
+            value={showName(val)}
+          />
         ))}
       </FormContainer>
     </Column>
