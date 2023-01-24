@@ -23,7 +23,7 @@ export const SIDE_BAR_WIDTH = 270;
 export const CLOSED_SIDE_BAR_WIDTH = 50;
 
 export const Container = styled(Column)`
-  background: #4a4a4a;
+  background: #535353;
 
   height: 100%;
   width: ${SIDE_BAR_WIDTH}px;
@@ -68,7 +68,7 @@ export const Container = styled(Column)`
 
   ${getScrollbarStyle({
     scrollColor: grey[300],
-    backgroundColor: '#4a4a4a',
+    backgroundColor: '#535353',
   })}
 `;
 
@@ -127,7 +127,7 @@ export const SettingsButton = styled(Link)`
 
   ${QUERIES.HOVER_ENABLED} {
     &:hover {
-      background-color: #333;
+      background-color: #2b2a2a;
     }
   }
 `;

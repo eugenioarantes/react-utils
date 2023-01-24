@@ -5,7 +5,7 @@ const Header: React.FC = () => {
   return (
     <StyledRow justifyContent="space-between">
       <Link to="/">
-        <Title>Header System</Title>
+        <Title>My System</Title>
       </Link>
       <Title>Other informations</Title>
     </StyledRow>

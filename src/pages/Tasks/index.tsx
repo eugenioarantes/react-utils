@@ -1,3 +1,6 @@
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+
 import {
   Paper,
   Table,
@@ -8,10 +11,11 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+
+import { GoBackButton } from '../../components/Buttons';
 import { Row, Column } from '../../components/Containers';
 import Tabs from '../../components/Tabs/Tabs';
+
 import { TABS, TASKS } from '../../mocks/Tasks';
 import { USERS } from '../../mocks/Users';
 
@@ -37,7 +41,11 @@ function Tasks(): JSX.Element {
   return (
     <Column>
       <Row justifyContent="space-between">
-        <h1>{validTab ? `Tasks ${tab}` : 'Not found tasks'}</h1>
+        <Row fullWidth={false}>
+          <GoBackButton to="/" />
+
+          <h1>{validTab ? `Tasks ${tab}` : 'Not found tasks'}</h1>
+        </Row>
 
         <Tabs value={tab} tabs={TABS} onChange={setTab as (s: string) => void} />
       </Row>
