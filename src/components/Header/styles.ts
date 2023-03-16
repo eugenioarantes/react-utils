@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { IconButton } from '@mui/material';
 import { Row } from '../Containers';
 
 export const StyledRow = styled(Row)`
@@ -9,4 +10,10 @@ export const StyledRow = styled(Row)`
 export const Title = styled.h1`
   color: #fff;
   font-size: 20px;
+`;
+
+export const StyledIconButton = styled(IconButton)`
+  svg {
+    color: #fff;
+  }
 `;

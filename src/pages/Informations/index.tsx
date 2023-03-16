@@ -15,7 +15,7 @@ const optionToComponent = {
   users: Users,
 } as Record<string, () => JSX.Element>;
 
-function Settings(): JSX.Element {
+function Informations(): JSX.Element {
   const [option, setOption] = useState<Options>('profile');
 
   const OptionComponent = optionToComponent[option];
@@ -41,4 +41,4 @@ function Settings(): JSX.Element {
   );
 }
 
-export default Settings;
+export default Informations;

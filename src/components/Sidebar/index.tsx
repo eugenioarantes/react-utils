@@ -39,7 +39,7 @@ function Sidebar({ open, onToggle }: SideBarProps): JSX.Element {
 
   return (
     <FullHeightContainer manageOverflow={false} bottomOffset={0}>
-      <Container className={open ? '' : 'closed'} gap={24}>
+      <Container className={open ? 'open' : 'closed'} gap={24}>
         <Column gap={24}>
           <Header>
             {open && (

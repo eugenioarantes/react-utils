@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { StyledRow, Title } from './styles';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { StyledRow, Title, StyledIconButton } from './styles';
 
 const Header: React.FC = () => {
   return (
@@ -7,7 +8,11 @@ const Header: React.FC = () => {
       <Link to="/">
         <Title>MY SYSTEM</Title>
       </Link>
-      <Title>Other informations</Title>
+      <Link to="/settings">
+        <StyledIconButton>
+          <SettingsIcon />
+        </StyledIconButton>
+      </Link>
     </StyledRow>
   );
 };
