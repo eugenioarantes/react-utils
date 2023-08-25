@@ -21,6 +21,8 @@ import { FilterButton } from './styles';
 import { useToggle } from '../../hooks/toggle';
 import FilterModal from './FilterModal';
 import { USERS } from '../../mocks/Users';
+import { evaluateSearchTerm } from './utils';
+import SearchProject from './Search';
 
 export type TaskFilter = Record<'status' | 'owners', string[]>;
 
@@ -47,32 +49,38 @@ function Home(): JSX.Element {
 
   const [filters, setFilters] = useState<TaskFilter>({} as TaskFilter);
 
+  const [searchTerm, setSearchTerm] = useState('');
+
   const hasFilter = !!Object.keys(filters).length;
 
   const filteredTasks = useMemo(() => {
+    const baseTasks = Object.values(TASKS);
+
     const activeFilterEntries = Object.entries(filters);
 
-    if (!activeFilterEntries.length) return TASKS;
+    if (!activeFilterEntries.length) return baseTasks;
 
-    return TASKS.filter(({ tasks }) => {
-      const allFiltersMatch = activeFilterEntries.every(([filter, values]) =>
-        filterResolvers[filter as FilterKey](tasks, values),
-      );
-
-      return allFiltersMatch;
-    }).map(({ id, name, tab, tasks }) => ({
-      id,
-      name,
-      tab,
-      tasks: tasks.filter((task) => {
+    return baseTasks
+      .filter(({ tasks }) => {
         const allFiltersMatch = activeFilterEntries.every(([filter, values]) =>
-          filterResolvers[filter as FilterKey](tasks, values, task),
+          filterResolvers[filter as FilterKey](tasks, values),
         );
 
         return allFiltersMatch;
-      }),
-    }));
-  }, [filters]);
+      })
+      .map(({ id, name, tab, tasks }) => ({
+        id,
+        name,
+        tab,
+        tasks: tasks.filter((task) => {
+          const allFiltersMatch = activeFilterEntries.every(([filter, values]) =>
+            filterResolvers[filter as FilterKey](tasks, values, task),
+          );
+
+          return allFiltersMatch;
+        }),
+      }));
+  }, [filters, searchTerm]);
 
   return (
     <Column>
@@ -85,9 +93,13 @@ function Home(): JSX.Element {
           </Typography>
         </Row>
 
-        <FilterButton $hasFilter={hasFilter} onClick={openFilterModal}>
-          <FilterListIcon />
-        </FilterButton>
+        <Row fullWidth={false}>
+          <SearchProject term={searchTerm} updateTerm={setSearchTerm} />
+
+          <FilterButton $hasFilter={hasFilter} onClick={openFilterModal}>
+            <FilterListIcon />
+          </FilterButton>
+        </Row>
       </Row>
 
       <FilterModal

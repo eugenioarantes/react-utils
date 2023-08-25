@@ -1,0 +1,25 @@
+import { FC } from 'react';
+
+import { SVG, IconProps } from './base';
+
+const Refresh: FC<IconProps> = ({ className, size = 24 }) => {
+  return (
+    <SVG
+      className={className}
+      stroke="currentColor"
+      fill="none"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      $size={size}
+    >
+      <desc />
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+      <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+    </SVG>
+  );
+};
+
+export default Refresh;

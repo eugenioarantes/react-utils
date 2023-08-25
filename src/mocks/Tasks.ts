@@ -20,7 +20,7 @@ export const TASKS = [
     tasks: [
       {
         id: '1',
-        name: 'test today 1',
+        name: 'proj today 1',
         status: 'in progress',
         owners: ['1'],
       },

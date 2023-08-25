@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 import { flex, noBorderNoOutline } from 'css-blocks-styled-components';
 
+import Button from '@mui/material/Button';
 import { QUERIES } from '../../utils/constants';
 
 export const TransparentButton = styled.button<{ $hoverOpacityShift?: boolean }>`
@@ -21,4 +22,10 @@ export const TransparentButton = styled.button<{ $hoverOpacityShift?: boolean }>
         }
       }
     `};
+`;
+
+export const StyledButton = styled(Button)`
+  border-radius: 10px !important;
+  padding: 5px 20px !important;
+  text-transform: capitalize !important;
 `;

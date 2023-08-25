@@ -61,6 +61,10 @@ function Sidebar({ open, onToggle }: SideBarProps): JSX.Element {
                 <SettingsButton to="/informations">Informations</SettingsButton>
               </Row>
 
+              <Row justifyContent="center">
+                <SettingsButton to="/create-task">Create Task</SettingsButton>
+              </Row>
+
               <Column>
                 {TASKS.map(({ id, name, tab }) => (
                   <TaskItem key={id} to={`/tasks?tab=${tab}`}>
