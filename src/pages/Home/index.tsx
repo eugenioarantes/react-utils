@@ -11,7 +11,6 @@ import {
   Typography,
 } from '@mui/material';
 import ClearAllOutlinedIcon from '@mui/icons-material/ClearAllOutlined';
-
 import FilterListIcon from '@mui/icons-material/FilterList';
 
 import { Column, Row } from '../../components/Containers';
@@ -29,18 +28,14 @@ export type TaskFilter = Record<'status' | 'owners', string[]>;
 type FilterKey = keyof TaskFilter;
 
 const filterResolvers: {
-  [key in FilterKey]: (tasks: SingleTask[], filters: string[], uniqueTask?: SingleTask) => boolean;
+  [key in FilterKey]: (filters: string[], uniqueTask: SingleTask) => boolean;
 } = {
-  status: (tasks, filters, uniqueTask) => {
-    return uniqueTask
-      ? filters.includes(uniqueTask.status)
-      : tasks.some(({ status }) => filters.includes(status));
+  status: (filters, uniqueTask) => {
+    return filters.includes(uniqueTask.status);
   },
 
-  owners: (tasks, filters, uniqueTask) => {
-    return uniqueTask
-      ? uniqueTask.owners.some((ownerId) => filters.includes(ownerId))
-      : tasks.some(({ owners }) => owners.some((id) => filters.includes(id)));
+  owners: (filters, uniqueTask) => {
+    return uniqueTask.owners.some((ownerId) => filters.includes(ownerId));
   },
 };
 
@@ -54,32 +49,24 @@ function Home(): JSX.Element {
   const hasFilter = !!Object.keys(filters).length;
 
   const filteredTasks = useMemo(() => {
-    const baseTasks = Object.values(TASKS);
+    const baseTasks = Object.values(TASKS)
+      .filter(({ tasks }) => {
+        return tasks.find((task) => evaluateSearchTerm(task, searchTerm));
+      })
+      .flatMap(({ tasks }) => tasks)
+      .filter((task) => evaluateSearchTerm(task, searchTerm));
 
     const activeFilterEntries = Object.entries(filters);
 
     if (!activeFilterEntries.length) return baseTasks;
 
-    return baseTasks
-      .filter(({ tasks }) => {
-        const allFiltersMatch = activeFilterEntries.every(([filter, values]) =>
-          filterResolvers[filter as FilterKey](tasks, values),
-        );
+    return baseTasks.filter((task) => {
+      const allFiltersMatch = activeFilterEntries.every(([filter, values]) =>
+        filterResolvers[filter as FilterKey](values, task),
+      );
 
-        return allFiltersMatch;
-      })
-      .map(({ id, name, tab, tasks }) => ({
-        id,
-        name,
-        tab,
-        tasks: tasks.filter((task) => {
-          const allFiltersMatch = activeFilterEntries.every(([filter, values]) =>
-            filterResolvers[filter as FilterKey](tasks, values, task),
-          );
-
-          return allFiltersMatch;
-        }),
-      }));
+      return allFiltersMatch;
+    });
   }, [filters, searchTerm]);
 
   return (
@@ -130,23 +117,21 @@ function Home(): JSX.Element {
                 </TableCell>
               </TableRow>
             ) : (
-              filteredTasks.map(({ tasks }) =>
-                tasks.map(({ id, name, status, owners }) => (
-                  <TableRow>
-                    <TableCell>{id}</TableCell>
+              filteredTasks.map(({ id, name, status, owners }) => (
+                <TableRow>
+                  <TableCell>{id}</TableCell>
 
-                    <TableCell>{name}</TableCell>
+                  <TableCell>{name}</TableCell>
 
-                    <TableCell>{status}</TableCell>
+                  <TableCell>{status}</TableCell>
 
-                    <TableCell>
-                      {USERS.filter(({ id: userId }) => owners.includes(userId))
-                        .map(({ name: userName }) => userName)
-                        .join(', ')}
-                    </TableCell>
-                  </TableRow>
-                )),
-              )
+                  <TableCell>
+                    {USERS.filter(({ id: userId }) => owners.includes(userId))
+                      .map(({ name: userName }) => userName)
+                      .join(', ')}
+                  </TableCell>
+                </TableRow>
+              ))
             )}
           </TableBody>
         </Table>
